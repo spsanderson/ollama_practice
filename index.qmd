@@ -19,7 +19,7 @@ else:
 
 Let's make a simple request using python to get a response to a simple question:
 
-```python python_ex_1
+```{python python_ex_1}
 import ollama
 
 response = ollama.list()
