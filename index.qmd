@@ -8,6 +8,8 @@ toc: true
 toc_depth: 2
 ---
 
+# Introduction
+
 This is where I am going to learn how to use ollama with Python and R.
 
 # Is ollama installed for python?
@@ -21,9 +23,15 @@ else:
     print(f"{module_name} is not installed.")
 ```
 
+# Simple Call to Ollama
+
 Let's make a simple request using python to get a response to a simple question:
 
-```{python}
+## Python
+
+First in python.
+
+```{python py_ex_1}
 import ollama
 
 response = ollama.list()
@@ -42,6 +50,8 @@ print(res)
 print("\n")
 print(res["message"]["content"])
 ```
+
+## R
 
 Now let's do the same but with R:
 
@@ -64,4 +74,43 @@ resp_process(response, "df")
 # Or specify output type
 txt <- do.call(generate, c(arg_list, output = "text"))
 print(txt)
+```
+
+# Streaming
+
+First in Pyhon
+
+```{python py_ex_2_streaming}
+response = ollama.list()
+
+res = ollama.chat(
+    model = "deepseek-v3.1:671b-cloud",
+    messages = [
+        {
+            "role": "user",
+            "content": "Why is the ocean so salty?"
+        }
+    ],
+    stream=True
+)
+
+for chunk in res:
+    print(chunk["message"]["content"], end="", flush = True)
+```
+
+## R
+
+Now in R:
+
+```{r r_ex_2_streaming, message = FALSE, warning = FALSE}
+messages <- create_message("Why is the ocean so salty?")
+
+arg_list = list(
+    model = "deepseek-v3.1:671b-cloud",
+    messages = messages,
+    stream = TRUE,
+    output = "text"
+)
+
+do.call(chat, arg_list)
 ```

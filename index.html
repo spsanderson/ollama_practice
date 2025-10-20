@@ -83,7 +83,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#is-ollama-installed-for-python" id="toc-is-ollama-installed-for-python" class="nav-link active" data-scroll-target="#is-ollama-installed-for-python">Is ollama installed for python?</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#is-ollama-installed-for-python" id="toc-is-ollama-installed-for-python" class="nav-link" data-scroll-target="#is-ollama-installed-for-python">Is ollama installed for python?</a></li>
+  <li><a href="#simple-call-to-ollama" id="toc-simple-call-to-ollama" class="nav-link" data-scroll-target="#simple-call-to-ollama">Simple Call to Ollama</a>
+  <ul class="collapse">
+  <li><a href="#python" id="toc-python" class="nav-link" data-scroll-target="#python">Python</a></li>
+  <li><a href="#r" id="toc-r" class="nav-link" data-scroll-target="#r">R</a></li>
+  </ul></li>
+  <li><a href="#streaming" id="toc-streaming" class="nav-link" data-scroll-target="#streaming">Streaming</a>
+  <ul class="collapse">
+  <li><a href="#r-1" id="toc-r-1" class="nav-link" data-scroll-target="#r-1">R</a></li>
+  </ul></li>
   </ul>
 </nav>
 </div>
@@ -120,7 +130,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
 <p>This is where I am going to learn how to use ollama with Python and R.</p>
+</section>
 <section id="is-ollama-installed-for-python" class="level1">
 <h1>Is ollama installed for python?</h1>
 <div class="cell">
@@ -135,7 +148,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>ollama is installed.</code></pre>
 </div>
 </div>
+</section>
+<section id="simple-call-to-ollama" class="level1">
+<h1>Simple Call to Ollama</h1>
 <p>Let’s make a simple request using python to get a response to a simple question:</p>
+<section id="python" class="level2">
+<h2 class="anchored" data-anchor-id="python">Python</h2>
+<p>First in python.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ollama</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -153,16 +172,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(res)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>model='deepseek-v3.1:671b-cloud' created_at='2025-10-20T18:33:07.491568042Z' done=True done_reason='stop' total_duration=1492625441 load_duration=None prompt_eval_count=14 prompt_eval_duration=None eval_count=21 eval_duration=None message=Message(role='assistant', content="Silent code takes flight,\nDeepseek's wisdom fills the night,\nAnswers bloom in light.", thinking=None, images=None, tool_name=None, tool_calls=None)</code></pre>
+<pre><code>model='deepseek-v3.1:671b-cloud' created_at='2025-10-20T19:17:59.242324304Z' done=True done_reason='stop' total_duration=1228201462 load_duration=None prompt_eval_count=14 prompt_eval_duration=None eval_count=22 eval_duration=None message=Message(role='assistant', content="Silent code takes flight,\nDeepseek's wisdom in the stream,\nNew thoughts start to bloom.", thinking=None, images=None, tool_name=None, tool_calls=None)</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(res[<span class="st">"message"</span>][<span class="st">"content"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Silent code takes flight,
-Deepseek's wisdom fills the night,
-Answers bloom in light.</code></pre>
+Deepseek's wisdom in the stream,
+New thoughts start to bloom.</code></pre>
 </div>
 </div>
+</section>
+<section id="r" class="level2">
+<h2 class="anchored" data-anchor-id="r">R</h2>
 <p>Now let’s do the same but with R:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ollamar)</span>
@@ -187,26 +209,165 @@ Body: In memory (17 bytes)</code></pre>
 POST http://127.0.0.1:11434/api/generate
 Status: 200 OK
 Content-Type: text/plain
-Body: In memory (353 bytes)</code></pre>
+Body: In memory (349 bytes)</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">resp_process</span>(response, <span class="st">"text"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "Silent code takes flight,\nDeepseek's wisdom in the stream,\nOllama's quiet might."</code></pre>
+<pre><code>[1] "A quiet prompt hums,\nOllama's local wisdom,\nDeepseek's thoughts take flight."</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">resp_process</span>(response, <span class="st">"df"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 3
   model                    response                                   created_at
   &lt;chr&gt;                    &lt;chr&gt;                                      &lt;chr&gt;     
-1 deepseek-v3.1:671b-cloud "Silent code takes flight,\nDeepseek's wi… 2025-10-2…</code></pre>
+1 deepseek-v3.1:671b-cloud "A quiet prompt hums,\nOllama's local wis… 2025-10-2…</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Or specify output type</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>txt <span class="ot">&lt;-</span> <span class="fu">do.call</span>(generate, <span class="fu">c</span>(arg_list, <span class="at">output =</span> <span class="st">"text"</span>))</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(txt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "Local models hum,\nDeepseek's wisdom in the code,\nSilent thoughts take flight."</code></pre>
+<pre><code>[1] "A silent code stream,\nOllama's mind seeks the deep,\nWisdom in the light.\n\n*This haiku plays on the idea of Ollama as a quiet, powerful force (\"silent code stream\") using Deepseek's capabilities (\"seeks the deep\") to find answers or understanding (\"wisdom in the light\").*"</code></pre>
 </div>
 </div>
+</section>
+</section>
+<section id="streaming" class="level1">
+<h1>Streaming</h1>
+<p>First in Pyhon</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> ollama.<span class="bu">list</span>()</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> ollama.chat(</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> <span class="st">"deepseek-v3.1:671b-cloud"</span>,</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    messages <span class="op">=</span> [</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>        {</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>            <span class="st">"role"</span>: <span class="st">"user"</span>,</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>            <span class="st">"content"</span>: <span class="st">"Why is the ocean so salty?"</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    stream<span class="op">=</span><span class="va">True</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> chunk <span class="kw">in</span> res:</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(chunk[<span class="st">"message"</span>][<span class="st">"content"</span>], end<span class="op">=</span><span class="st">""</span>, flush <span class="op">=</span> <span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Of course! This is a fantastic question with a fascinating answer that involves geology, chemistry, and hundreds of millions of years.
+
+The short answer is: **The ocean is salty because of a natural process called the "water cycle," where rainwater slowly dissolves minerals, like salt, from rocks on land and carries them to the sea.**
+
+But let's break that down into the detailed, step-by-step process.
+
+### The Two-Part Explanation
+
+#### Part 1: Where the Salt Comes From (The "Ingredients")
+
+The primary source of the ocean's salt is the **Earth's crust—the rocks on land.**
+
+1.  **Rainwater is Slightly Acidic:** Pure rainwater isn't entirely pure; it absorbs carbon dioxide (CO₂) from the air, forming a weak acid called carbonic acid (the same thing that gives soda its fizz).
+2.  **Weathering and Erosion:** This slightly acidic rain falls on rocks and mountains. It slowly wears them down (a process called weathering) and breaks them down into their mineral components. One of the most common minerals in rocks is **sodium chloride**—the very same compound as table salt.
+3.  **The Journey to the Sea:** Rivers and streams carry these dissolved minerals (ions like sodium, chloride, calcium, potassium, etc.) from the land all the way to the ocean.
+
+#### Part 2: Why the Salt Stays and Concentrates (The "Recipe")
+
+This is the crucial part. If the salt just went in and came out, the ocean wouldn't be nearly as salty. Here's why it accumulates:
+
+1.  **Salt In, Water Out:** Rivers continuously deliver dissolved salts *into* the ocean. Meanwhile, the main way water *leaves* the ocean is through **evaporation**. When ocean water evaporates, it turns into pure water vapor (clouds), leaving all the dissolved salts behind.
+2.  **The Concentration Effect:** This creates a one-way system. The salt keeps getting added but never leaves (in significant amounts). Over hundreds of millions of years, this process has steadily increased the salt concentration in the ocean.
+
+Think of it like boiling a pot of soup. As the water evaporates, the soup gets saltier and more concentrated. The ocean is like a giant soup pot that has been simmering for billions of years.
+
+---
+
+### Key Factors to Understand
+
+*   **It's Not Just Table Salt:** While sodium and chloride (which make up about 85% of the dissolved solids in seawater) are the most abundant, the ocean contains virtually every natural element found on Earth, including magnesium, calcium, and potassium.
+*   **Why Aren't Lakes as Salty?** Most lakes have outlets (like rivers) that allow water to flow out, carrying some dissolved minerals with them. They are part of a *through-flow* system. The ocean is mostly a *dead-end* for this mineral transport.
+*   **The Salt Level is Stable:** Even though rivers keep adding salt, the ocean's salinity has been relatively stable for a long time. Scientists believe this is because the salt is being removed at a similar rate to which it's added. The removal happens when salt gets trapped in places like:
+    *   **Seafloor Sediments:** Salt ions can be absorbed into clay minerals or form minerals on the seafloor.
+    *   **Hydrothermal Vents:** Seawater seeps into the ocean crust, gets heated, and leaches out some minerals before spewing back out.
+    *   **Evaporite Deposits:** When shallow seas or lagoons evaporate completely, they leave behind massive layers of salt (like the famous Bonneville Salt Flats, which was once an ancient lake).
+
+### A Quick Summary:
+
+| Process | What Happens | Effect on Ocean Salinity |
+| :--- | :--- | :--- |
+| **Input** | Rivers carry dissolved minerals from rocks on land. | **Increases** salinity |
+| **Output** | Ocean water evaporates, leaving salts behind. | **Increases** salinity (by concentrating what's left) |
+| **Stabilizing Output** | Salt is removed by seafloor sediments, hydrothermal vents, etc. | **Decreases** salinity |
+
+The ocean's current salinity is the balance between these inputs and outputs over geologic time.
+
+So, the salt in your table shaker is actually ancient mineral dust from continental rocks, delivered by rivers and concentrated by the sun over billions of years!</code></pre>
+</div>
+</div>
+<section id="r-1" class="level2">
+<h2 class="anchored" data-anchor-id="r-1">R</h2>
+<p>Now in R:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>messages <span class="ot">&lt;-</span> <span class="fu">create_message</span>(<span class="st">"Why is the ocean so salty?"</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>arg_list <span class="ot">=</span> <span class="fu">list</span>(</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">model =</span> <span class="st">"deepseek-v3.1:671b-cloud"</span>,</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">messages =</span> messages,</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">stream =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">output =</span> <span class="st">"text"</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="fu">do.call</span>(chat, arg_list)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Of course! This is a fantastic question with a fascinating answer that involves geology, chemistry, and hundreds of millions of years.
+
+The short answer is: **The ocean is salty because rivers carry dissolved salts from the land into the ocean, and while water evaporates from the ocean and falls back as rain, the salts stay behind.**
+
+Let's break that down into a simple step-by-step process.
+
+### 1. The Source of the Salt: Weathering of Rocks
+
+It all starts on land with a process called **weathering**. Rainwater is slightly acidic because it reacts with carbon dioxide in the atmosphere, forming a weak carbonic acid.
+
+*   This slightly acidic rain falls on rocks on the Earth's surface.
+*   The acid slowly breaks down the rocks, releasing minerals and ions (electrically charged particles) like **Sodium (Na⁺)** and **Chloride (Cl⁻)**—which together make table salt (NaCl)—as well as others like potassium, calcium, and sulfate.
+*   These dissolved ions are carried by rivers and streams into the groundwater and eventually into the ocean.
+
+This process has been happening for billions of years, since the Earth's first oceans formed.
+
+### 2. The Concentration of the Salt: The Hydrological Cycle
+
+Once the salts are in the ocean, a key process concentrates them: **the water cycle (hydrological cycle)**.
+
+1.  **Water Evaporates:** The sun heats the ocean's surface, causing water to evaporate.
+2.  **Salt Stays Behind:** When water evaporates, it turns into pure water vapor. **The dissolved salts are left behind in the ocean.**
+3.  **Rain Falls:** The water vapor rises, cools, condenses into clouds, and falls back to Earth as rain or snow.
+4.  **The Cycle Repeats:** This fresh rain falls on the land, weathers more rocks, picks up more salts, and flows back into the ocean.
+
+This is the crucial part: it's a one-way trip for the salt. Over hundreds of millions of years, this continuous cycle has steadily increased the salt concentration in the ocean.
+
+### Why Isn't the Ocean Getting Salter?
+
+You might wonder, if rivers keep adding salt, why isn't the ocean unbearably salty by now? Scientists believe the ocean's salinity has been relatively stable for a long time because **salt is also being removed** at roughly the same rate it's added.
+
+Salt is removed through processes like:
+*   **Sea Spray:** Wind and waves kick up spray that deposits salt crystals on land.
+*   **Biological Processes:** Marine organisms use ions to build shells and skeletons (e.g., calcium carbonate).
+*   **Geological Processes:** When seawater gets trapped in basins and evaporates, it forms thick salt deposits on the seafloor. Ions also get removed through reactions with volcanic rocks on the seafloor.
+
+This creates a balance between the input and output of salt.
+
+---
+
+### A Few Fun Facts to Tie It All Together:
+
+*   **The Salt is Mostly Table Salt:** About 90% of all the ions in seawater are **sodium** and **chloride**—the two components of ordinary table salt.
+*   **It Took a Long Time:** This process didn't happen overnight. It took hundreds of millions of years for the oceans to reach their current salinity level of about **3.5%** (meaning about 35 grams of salt per liter of water).
+*   **Not All Seas are Equally Salty:** The saltiest sea in the world is the Red Sea (and the Persian Gulf), due to high evaporation rates and limited connection to the open ocean. The least salty areas are near the poles, where melting ice dilutes the seawater.
+
+In summary, the ocean is salty because it acts as the final destination for salts that have been slowly washed off the continents for eons. The water cycle concentrates these salts by constantly removing pure water and leaving the salt behind.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Of course! This is a fantastic question with a fascinating answer that involves geology, chemistry, and hundreds of millions of years.\n\nThe short answer is: **The ocean is salty because rivers carry dissolved salts from the land into the ocean, and while water evaporates from the ocean and falls back as rain, the salts stay behind.**\n\nLet's break that down into a simple step-by-step process.\n\n### 1. The Source of the Salt: Weathering of Rocks\n\nIt all starts on land with a process called **weathering**. Rainwater is slightly acidic because it reacts with carbon dioxide in the atmosphere, forming a weak carbonic acid.\n\n*   This slightly acidic rain falls on rocks on the Earth's surface.\n*   The acid slowly breaks down the rocks, releasing minerals and ions (electrically charged particles) like **Sodium (Na⁺)** and **Chloride (Cl⁻)**—which together make table salt (NaCl)—as well as others like potassium, calcium, and sulfate.\n*   These dissolved ions are carried by rivers and streams into the groundwater and eventually into the ocean.\n\nThis process has been happening for billions of years, since the Earth's first oceans formed.\n\n### 2. The Concentration of the Salt: The Hydrological Cycle\n\nOnce the salts are in the ocean, a key process concentrates them: **the water cycle (hydrological cycle)**.\n\n1.  **Water Evaporates:** The sun heats the ocean's surface, causing water to evaporate.\n2.  **Salt Stays Behind:** When water evaporates, it turns into pure water vapor. **The dissolved salts are left behind in the ocean.**\n3.  **Rain Falls:** The water vapor rises, cools, condenses into clouds, and falls back to Earth as rain or snow.\n4.  **The Cycle Repeats:** This fresh rain falls on the land, weathers more rocks, picks up more salts, and flows back into the ocean.\n\nThis is the crucial part: it's a one-way trip for the salt. Over hundreds of millions of years, this continuous cycle has steadily increased the salt concentration in the ocean.\n\n### Why Isn't the Ocean Getting Salter?\n\nYou might wonder, if rivers keep adding salt, why isn't the ocean unbearably salty by now? Scientists believe the ocean's salinity has been relatively stable for a long time because **salt is also being removed** at roughly the same rate it's added.\n\nSalt is removed through processes like:\n*   **Sea Spray:** Wind and waves kick up spray that deposits salt crystals on land.\n*   **Biological Processes:** Marine organisms use ions to build shells and skeletons (e.g., calcium carbonate).\n*   **Geological Processes:** When seawater gets trapped in basins and evaporates, it forms thick salt deposits on the seafloor. Ions also get removed through reactions with volcanic rocks on the seafloor.\n\nThis creates a balance between the input and output of salt.\n\n---\n\n### A Few Fun Facts to Tie It All Together:\n\n*   **The Salt is Mostly Table Salt:** About 90% of all the ions in seawater are **sodium** and **chloride**—the two components of ordinary table salt.\n*   **It Took a Long Time:** This process didn't happen overnight. It took hundreds of millions of years for the oceans to reach their current salinity level of about **3.5%** (meaning about 35 grams of salt per liter of water).\n*   **Not All Seas are Equally Salty:** The saltiest sea in the world is the Red Sea (and the Persian Gulf), due to high evaporation rates and limited connection to the open ocean. The least salty areas are near the poles, where melting ice dilutes the seawater.\n\nIn summary, the ocean is salty because it acts as the final destination for salts that have been slowly washed off the continents for eons. The water cycle concentrates these salts by constantly removing pure water and leaving the salt behind."</code></pre>
+</div>
+</div>
+</section>
 </section>
 
 </main>
