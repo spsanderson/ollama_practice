@@ -1,10 +1,116 @@
+# === Python ===
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+*.manifest
+*.spec
+
+# Virtual environments
+.env
+.envrc
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+.pytest_cache/
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# pytype static type analyzer
+.pytype/
+
+# Cython debug symbols
+cython_debug/
+
+# Rope project settings
+.ropeproject
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# PyCharm
+.idea/
+
+# VS Code
+.vscode/
+
+# mkdocs documentation
+/site
+
+# PEP 582; used by e.g. pdm
+__pypackages__/
+
+# Data science
+*.h5
+*.hdf5
+*.db
+*.sqlite
+*.pkl
+*.joblib
+
+# === R ===
+
 # History files
 .Rhistory
 .Rapp.history
 
 # Session Data files
 .RData
-.RDataTmp
 
 # User-specific files
 .Ruserdata
@@ -16,34 +122,56 @@
 /*.tar.gz
 
 # Output files from R CMD check
-/*.Rcheck/
+.Rcheck/
 
 # RStudio files
 .Rproj.user/
-
-# produced vignettes
-vignettes/*.html
-vignettes/*.pdf
-
-# OAuth2 token, see https://github.com/hadley/httr/releases/tag/v0.3
-.httr-oauth
-
-# knitr and R markdown default cache directories
-*_cache/
-/cache/
-
-# Temporary files created by R markdown
-*.utf8.md
-*.knit.md
+*.Rproj
 
 # R Environment Variables
 .Renviron
 
-# pkgdown site
-docs/
+# R package build
+.Rbuildignore
 
-# translation temp files
-po/*~
-
-# RStudio Connect folder
+# Shiny application logs
 rsconnect/
+
+# Packrat dependency management
+packrat/
+packrat.lock
+
+# renv dependency management
+renv/library/
+renv/staging/
+renv.lock
+
+# drake cache files
+.drake/
+
+# Targets cache files
+_targets/
+
+# Quarto
+*.qmd
+
+# === General ===
+
+# OS generated files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Icon?
+Desktop.ini
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.swp
+*.swo
+*.bak
+*.old
+*.orig
+*.tmp
