@@ -7,9 +7,19 @@ toc: true
 toc_depth: 2
 ---
 
+```{python}
+import importlib.util
+module_name = "ollama"
+
+if importlib.util.find_spec(module_name):
+    print(f"{module_name} is installed.")
+else:
+    print(f"{module_name} is not installed.")
+```
+
 Let's make a simple request using python to get a response to a simple question:
 
-```{python python_ex_1}
+```python python_ex_1
 import ollama
 
 response = ollama.list()
@@ -29,9 +39,9 @@ print("\n")
 print(res["message"]["content"])
 ```
 
-Now let's do the samething with R:
+Now let's do the same but with R:
 
-```{r r_ex_1}
+```{r r_ex_1, message = FALSE, warning = FALSE}
 library(ollamar)
 
 test_connection()
@@ -50,14 +60,4 @@ resp_process(response, "df")
 # Or specify output type
 txt <- do.call(generate, c(arg_list, output = "text"))
 print(txt)
-```
-
-```{python}
-import importlib.util
-module_name = "ollama"
-
-if importlib.util.find_spec(module_name):
-    print(f"{module_name} is installed.")
-else:
-    print(f"{module_name} is not installed.)
 ```
