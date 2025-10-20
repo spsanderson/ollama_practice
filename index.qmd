@@ -1,0 +1,53 @@
+---
+title: "Practice Work With Ollama in Python and R"
+format: html
+author: "Steven P. Sanderson II, MPH"
+date: today
+toc: true
+toc_depth: 2
+---
+
+Let's make a simple request using python to get a response to a simple question:
+
+```{python}
+import ollama
+
+response = ollama.list()
+
+res = ollama.chat(
+    model = "deepseek-v3.1:671b-cloud",
+    messages = [
+        {
+            "role": "user",
+            "content": "Write a haiku about Ollama and Deepseek"
+        }
+    ]
+)
+
+print(res)
+print("\n")
+print(res["message"]["content"])
+```
+
+Now let's do the samething with R:
+
+```{r}
+library(ollamar)
+
+test_connection()
+
+arg_list = list(
+    model = "deepseek-v3.1:671b-cloud",
+    prompt = "Write a haiku about Ollama and Deepseek."
+)
+
+response = do.call(generate, arg_list)
+print(response)
+
+resp_process(response, "text")
+resp_process(response, "df")
+
+# Or specify output type
+txt <- do.call(generate, c(arg_list, output = "text"))
+print(txt)
+```
