@@ -2,11 +2,15 @@
 title: "Practice Work With Ollama in Python and R"
 format: html
 author: "Steven P. Sanderson II, MPH"
+theme: darkly
 date: today
 toc: true
 toc_depth: 2
 ---
 
+This is where I am going to learn how to use ollama with Python and R.
+
+# Is ollama installed for python?
 ```{python}
 import importlib.util
 module_name = "ollama"
