@@ -129,3 +129,48 @@ res = ollama.generate(
 # show
 print(ollama.show("deepseek-v3.1:671b-cloud"))
 ```
+
+Now in R
+
+```{r r_ex_3_generate, message = FALSE, warning = FALSE}
+messages <- create_message("Why is the ocean so salty? Be concise.")
+
+arg_list = list(
+    model = "deepseek-v3.1:671b-cloud",
+    messages = messages,
+    stream = TRUE,
+    output = "text"
+)
+
+txt <- do.call(chat, arg_list)
+
+# show
+print(show("deepseek-v3.1:671b-cloud"))
+```
+
+# Using a MODELFILE
+
+```{python py_ex_4_modelfile}
+# The following use of modelfile in the python library ollama.create does not work.
+modelfile = """
+FROM deepseek-v3.1:671b-cloud
+SYSTEM You are a very smart assistant who knows everything about the oceans. You are very sussinct and informative.
+PARAMETER temperature 0.1
+"""
+
+ollama.create(
+    model = "knowitall",
+    from_ = "gpt-oss:20b-cloud",
+    system = "You are a very smart assitant who knows everyting about the oceans. You are very sussinct and informative.",
+    parameters = {
+        "temperature": 0.1
+    }
+)
+
+res = ollama.generate(
+    model = "knowitall",
+    prompt = "Why is the ocean so salty?",
+    format = "json"
+)
+print(res["response"])
+```
