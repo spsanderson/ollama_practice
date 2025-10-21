@@ -115,3 +115,17 @@ arg_list = list(
 txt <- do.call(chat, arg_list)
 print(txt)
 ```
+
+# The Generate Endpoint
+
+Now let's see how using generate changes things.
+
+```{python py_ex_3_generate}
+res = ollama.generate(
+    model = "deepseek-v3.1:671b-cloud",
+    prompt = "Why is the sky blue?"
+)
+
+# show
+print(ollama.show("deepseek-v3.1:671b-cloud"))
+```
