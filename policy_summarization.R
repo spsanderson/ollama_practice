@@ -38,7 +38,7 @@ system_prompt <- stringr::str_squish(
     2. At least three (3) bullet points
     3. A table of information
     4. Summary of the policy
-Be concise."
+Be concise but thorough."
 )
 
 client <- chat_ollama(model = "qwen3:0.6b", system_prompt = system_prompt, params = list(temperature = 0.1))
@@ -49,4 +49,31 @@ ragnar_register_tool_retrieve(
 )
 
 res <- client$chat("Please summarize the Authorization policy.", echo = "none")
-print(res)
+file_extension <- path_ext(anthem_files_subset)
+file_size <- file_size(anthem_files_subset)
+file_date <- file_info(anthem_files_subset)$modification_time
+file_name <- path_file(anthem_files_subset)
+email_body <- md(glue(
+  "
+  Please see summary for {file_name}:
+
+  Name: {file_name}
+  Extension: {file_extension}
+  Size: {file_size} bytes
+  Date: {file_date}
+
+  Summary Response: {res}
+  "
+))
+email_body
+
+Outlook <- COMCreate("Outlook.Application")
+Email <- Outlook$CreateItem(0)
+Email[["subject"]] <- "Payer Policy Files"
+Email[["body"]] <- email_body
+attachment <- anthem_files_subset
+Email[["to"]] <- "steven.sanderson@stonybrookmedicine.edu"
+Email[["attachments"]]$Add(attachment)
+Email$Send()
+rm(Outlook)
+rm(Email)
