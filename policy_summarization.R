@@ -77,8 +77,9 @@ llm_resp_list <- file_split_tbl[2:3] |>
       ragnar_store_build_index(store)
 
       # Chat Client
+      # "quen3:0.6b"
       client <- chat_ollama(
-        model = "qwen3:0.6b",
+        model = "gpt-oss:20b-cloud",
         system_prompt = system_prompt,
         params = list(temperature = 0.1)
       )
