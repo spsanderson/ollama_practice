@@ -138,7 +138,7 @@ walk(
       "/",
       "\\\\"
     )
-    Email[["to"]] <- "steven.sanderson@stonybrookmedicine.edu"
+    Email[["to"]] <- ""
     Email[["attachments"]]$Add(attachment)
     Email$Send()
     rm(Outlook)
