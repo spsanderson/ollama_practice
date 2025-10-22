@@ -44,11 +44,11 @@ file_split_tbl <- tibble(
   group_split(file_name)
 
 # Map over the files and insert into storage ----
-llm_resp_list <- file_split_tbl[1:3] |>
+llm_resp_list <- file_split_tbl[2:3] |>
   imap(
     .f = function(obj, id) {
       # File path
-      file_path <- obj$file_path
+      file_path <- obj$file_path[[1]]
 
       # Storage
       store_location <- "pdf.ragnar.duckdb"
