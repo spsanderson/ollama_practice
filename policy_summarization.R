@@ -91,11 +91,14 @@ output_tbl <- list_rbind(llm_resp_list) |>
   mutate(
     email_body = md(glue(
       "
-      Please see summary for {file_name}:
+      Please see summary for below:
 
       Name: {file_name}
+
       Extension: {file_extension}
+      
       Size: {file_size} bytes
+      
       Date: {file_date}
 
       Summary Response: {llm_resp}
