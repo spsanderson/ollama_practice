@@ -44,7 +44,7 @@ file_split_tbl <- tibble(
   group_split(file_name)
 
 # Map over the files and insert into storage ----
-file_split_tbl[2:3] |>
+llm_resp_list <- file_split_tbl[1:3] |>
   imap(
     .f = function(obj, id) {
       # File path
@@ -86,7 +86,7 @@ file_split_tbl[2:3] |>
       res <- client$chat("Please summarize the policy.", echo = "all")
 
       # Add response to obj tibble
-      rec <- rec |> mutate(llm_resp = res)
+      rec <- obj |> mutate(llm_resp = res)
 
       return(rec)
     }
