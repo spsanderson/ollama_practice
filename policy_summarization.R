@@ -87,6 +87,9 @@ llm_resp_list <- file_split_tbl[2:3] |>
 
       # Add response to obj tibble
       rec <- obj |> mutate(llm_resp = res)
+      rm(store)
+      rm(client)
+      rm(chunks)
 
       return(rec)
     }
