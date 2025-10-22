@@ -175,3 +175,5 @@ Desktop.ini
 *.old
 *.orig
 *.tmp
+pdf_ragnar_duckdb
+*.wal
