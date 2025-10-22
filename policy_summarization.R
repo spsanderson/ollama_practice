@@ -112,7 +112,7 @@ walk(
     Outlook <- COMCreate("Outlook.Application")
     Email <- Outlook$CreateItem(0)
     Email[["subject"]] <- "Payer Policy Summary"
-    Email[["body"]] <- .x
+    Email[["htmlbody"]] <- markdown::markdownToHTML(.x)
     attachment <- str_replace_all(
       output_tbl$file_path[output_tbl$email_body == .x],
       "/",
