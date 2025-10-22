@@ -7,6 +7,7 @@ library(glue)
 library(blastula)
 library(RDCOMClient)
 
+# Storage ----
 store_location <- "pdf.ragnar.duckdb"
 store <- ragnar_store_create(
   store_location,
@@ -50,14 +51,6 @@ llm_resp_list <- file_split_tbl[2:3] |>
       # File path
       file_path <- obj$file_path[[1]]
 
-      # Storage
-      store_location <- "pdf.ragnar.duckdb"
-      store <- ragnar_store_create(
-        store_location,
-        embed = \(x) embed_ollama(x, model = "nomic-embed-text:latest"),
-        overwrite = TRUE
-      )
-
       # Chunking
       chunks <- file_path |>
         read_as_markdown() |>
@@ -87,8 +80,6 @@ llm_resp_list <- file_split_tbl[2:3] |>
 
       # Add response to obj tibble
       rec <- obj |> mutate(llm_resp = res)
-      rm(store)
-      rm(client)
       rm(chunks)
 
       return(rec)
