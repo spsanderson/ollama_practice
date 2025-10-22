@@ -7,14 +7,6 @@ library(glue)
 library(blastula)
 library(RDCOMClient)
 
-# Storage ----
-store_location <- "pdf.ragnar.duckdb"
-store <- ragnar_store_create(
-  store_location,
-  embed = \(x) embed_ollama(x, model = "nomic-embed-text:latest"),
-  overwrite = TRUE
-)
-
 # Files ----
 anthem_files_path <- "W:/PATACCT/BusinessOfc/Revenue Cycle Analyst/Payer_Policies/Anthem_PDFs/"
 anthem_files <- list.files(anthem_files_path, full.names = TRUE)
@@ -24,7 +16,7 @@ system_prompt <- stringr::str_squish(
   "You are an expert assistant in document summarization.
   When responding, you first quote relevant material from the documents in the store,
   provide links to the sources, and then add your own context and interpretation.
-  
+
   You will provide the following for every document passed to you:
     1. At least three (3) bullet points
     2. A table of information
@@ -51,6 +43,14 @@ llm_resp_list <- file_split_tbl[2:3] |>
     .f = function(obj, id) {
       # File path
       file_path <- obj$file_path[[1]]
+
+      # Storage ----
+      store_location <- "pdf.ragnar.duckdb"
+      store <- ragnar_store_create(
+        store_location,
+        embed = \(x) embed_ollama(x, model = "nomic-embed-text:latest"),
+        overwrite = TRUE
+      )
 
       # Chunking
       chunks <- file_path |>
