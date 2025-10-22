@@ -87,7 +87,7 @@ llm_resp_list <- file_split_tbl[2:3] |>
     }
   )
 
-list_rbind(llm_resp_list) |>
+output_tbl <- list_rbind(llm_resp_list) |>
   mutate(
     email_body = md(glue(
       "
@@ -101,8 +101,32 @@ list_rbind(llm_resp_list) |>
       Summary Response: {llm_resp}
       "
     ))
-  ) |>
-  pull(email_body)
+  )
+
+# Compose Email ----
+# Open Outlook
+# purr the emails out to whomever
+walk(
+  .x = output_tbl$email_body,
+  ~ {
+    Outlook <- COMCreate("Outlook.Application")
+    Email <- Outlook$CreateItem(0)
+    Email[["subject"]] <- "Payer Policy Summary"
+    Email[["body"]] <- .x
+    attachment <- str_replace_all(
+      output_tbl$file_path[output_tbl$email_body == .x],
+      "/",
+      "\\\\"
+    )
+    #Email[["body"]] <- .x
+    Email[["to"]] <- "spsanderson@gmail.com"
+    Email[["attachments"]]$Add(attachment)
+    Email$Send()
+    rm(Outlook)
+    rm(Email)
+    Sys.sleep(5)
+  }
+)
 
 for (file in anthem_files_subset) {
   chunks <- file |>
@@ -127,31 +151,3 @@ ragnar_register_tool_retrieve(
 )
 
 res <- client$chat("Please summarize the policy.", echo = "none")
-file_extension <- path_ext(anthem_files_subset)
-file_size <- file_size(anthem_files_subset)
-file_date <- file_info(anthem_files_subset)$modification_time
-file_name <- path_file(anthem_files_subset)
-email_body <- md(glue(
-  "
-  Please see summary for {file_name}:
-
-  Name: {file_name}
-  Extension: {file_extension}
-  Size: {file_size} bytes
-  Date: {file_date}
-
-  Summary Response: {res}
-  "
-))
-email_body
-
-Outlook <- COMCreate("Outlook.Application")
-Email <- Outlook$CreateItem(0)
-Email[["subject"]] <- "Payer Policy Files"
-Email[["body"]] <- email_body
-attachment <- anthem_files_subset
-Email[["to"]] <- "steven.sanderson@stonybrookmedicine.edu"
-Email[["attachments"]]$Add(attachment)
-Email$Send()
-rm(Outlook)
-rm(Email)
