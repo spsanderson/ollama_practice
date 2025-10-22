@@ -58,7 +58,7 @@ llm_resp_list <- file_split_tbl[2:3] |>
       file_path <- obj |> pull(1) |> pluck(1)
 
       # Storage ----
-      store_location <- "pdf.ragnar.duckdb"
+      store_location <- "pdf_ragnar_duckdb"
       store <- ragnar_store_create(
         store_location,
         embed = \(x) embed_ollama(x, model = "nomic-embed-text:latest"),
@@ -116,7 +116,9 @@ output_tbl <- list_rbind(llm_resp_list) |>
       
       Date: {file_date}
 
-      Summary Response: {llm_resp}
+      Summary Response: 
+
+      {llm_resp}
       "
     ))
   )
@@ -136,7 +138,7 @@ walk(
       "/",
       "\\\\"
     )
-    Email[["to"]] <- "spsanderson@gmail.com"
+    Email[["to"]] <- ""
     Email[["attachments"]]$Add(attachment)
     Email$Send()
     rm(Outlook)
@@ -146,19 +148,29 @@ walk(
 )
 
 # Testing ----
+anthem_files_subset <- anthem_files[2]
+
+# Storage ----
+store_location <- "pdf_ragnar_duckdb"
+store <- ragnar_store_create(
+  store_location,
+  embed = \(x) embed_ollama(x, model = "nomic-embed-text:latest"),
+  overwrite = TRUE
+)
+
 for (file in anthem_files_subset) {
   chunks <- file |>
     read_as_markdown() |>
     markdown_chunk()
 
   ragnar_store_insert(store, chunks)
+
+  # Build index
+  ragnar_store_build_index(store)
 }
 
-ragnar_store_build_index(store)
-
-
 client <- chat_ollama(
-  model = "qwen3:0.6b",
+  model = "llama3.2",
   system_prompt = system_prompt,
   params = list(temperature = 0.1)
 )
@@ -168,7 +180,8 @@ ragnar_register_tool_retrieve(
   store = store
 )
 
-res <- client$chat("Please summarize the policy.", echo = "none")
+res <- client$chat("Please summarize the policy.", echo = "all")
+print(res)
 
 "You are an expert assistant in document summarization.
   When responding, you first quote relevant material from the documents in the store,
