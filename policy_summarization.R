@@ -83,7 +83,7 @@ file_split_tbl[2:3] |>
       )
 
       # Get response
-      res <- client$chat("Please summarize the policy.", echo = "none")
+      res <- client$chat("Please summarize the policy.", echo = "all")
 
       # Add response to obj tibble
       rec <- rec |> mutate(llm_resp = res)
