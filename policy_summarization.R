@@ -42,7 +42,7 @@ llm_resp_list <- file_split_tbl[2:3] |>
   imap(
     .f = function(obj, id) {
       # File path
-      file_path <- obj$file_path[[1]]
+      file_path <- obj |> pull(1) |> pluck(1) #obj$file_path[[1]]
 
       # Storage ----
       store_location <- "pdf.ragnar.duckdb"
@@ -87,6 +87,22 @@ llm_resp_list <- file_split_tbl[2:3] |>
     }
   )
 
+list_rbind(llm_resp_list) |>
+  mutate(
+    email_body = md(glue(
+      "
+      Please see summary for {file_name}:
+
+      Name: {file_name}
+      Extension: {file_extension}
+      Size: {file_size} bytes
+      Date: {file_date}
+
+      Summary Response: {llm_resp}
+      "
+    ))
+  ) |>
+  pull(email_body)
 
 for (file in anthem_files_subset) {
   chunks <- file |>
