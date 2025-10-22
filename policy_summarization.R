@@ -118,7 +118,6 @@ walk(
       "/",
       "\\\\"
     )
-    #Email[["body"]] <- .x
     Email[["to"]] <- "spsanderson@gmail.com"
     Email[["attachments"]]$Add(attachment)
     Email$Send()
