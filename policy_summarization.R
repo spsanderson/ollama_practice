@@ -51,7 +51,7 @@ file_split_tbl <- tibble(
   group_split(file_name)
 
 # Map over the files and insert into storage ----
-llm_resp_list <- file_split_tbl[1:3] |>
+llm_resp_list <- file_split_tbl |>
   imap(
     .f = function(obj, id) {
       # File path
@@ -138,12 +138,12 @@ walk(
       "/",
       "\\\\"
     )
-    Email[["to"]] <- ""
+    Email[["to"]] <- "6b63fc6c-91e8-4412-88ce-2a928c1b2fdb@email.dotadda.io"
     Email[["attachments"]]$Add(attachment)
     Email$Send()
     rm(Outlook)
     rm(Email)
-    Sys.sleep(5)
+    Sys.sleep(1)
   }
 )
 
@@ -158,22 +158,25 @@ row_to_md <- function(row) {
   llm_resp_str <- as.character(row$llm_resp)
   email_body_str <- as.character(row$email_body)
 
-row_to_md <- function(row) {
-  # Convert fs::bytes to character
-  file_size_str <- as.character(row$file_size)
-  # Convert dttm to date string
-  file_date_str <- as.character(row$file_date)
-  # Convert other columns to character
-  llm_resp_str <- as.character(row$llm_resp)
-  email_body_str <- as.character(row$email_body)
-  
   md <- paste0(
-    '**File Path:** "', row$file_path, '"\n\n',
-    '**File Name:** "', row$file_name, '"\n\n',
-    '**File Extension:** "', row$file_extension, '\n\n',
-    '**File Size:** ', file_size_str, '\n\n',
-    '**File Date:** ', file_date_str, '\n\n',
-    '**LLM Response:** "', llm_resp_str, '"\n\n'
+    '**File Path:** "',
+    row$file_path,
+    '"\n\n',
+    '**File Name:** "',
+    row$file_name,
+    '"\n\n',
+    '**File Extension:** "',
+    row$file_extension,
+    '\n\n',
+    '**File Size:** ',
+    file_size_str,
+    '\n\n',
+    '**File Date:** ',
+    file_date_str,
+    '\n\n',
+    '**LLM Response:** "',
+    llm_resp_str,
+    '"\n\n'
     #'**Email Body:** "', email_body_str, '"\n\n'
   )
   return(md)
