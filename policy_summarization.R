@@ -9,8 +9,8 @@ library(RDCOMClient)
 
 
 # Files ----
-anthem_files_path <- "W:/PATACCT/BusinessOfc/Revenue Cycle Analyst/Payer_Policies/Anthem_PDFs/"
-anthem_files <- list.files(anthem_files_path, full.names = TRUE)
+policy_files_path <- "W:/PATACCT/BusinessOfc/Revenue Cycle Analyst/Payer_Policies/Anthem_PDFs/"
+policy_files <- list.files(policy_files_path, full.names = TRUE)
 
 # System Prompt ----
 system_prompt <- str_squish(
@@ -40,7 +40,7 @@ system_prompt <- str_squish(
 
 # Create Group Split tibble ----
 file_split_tbl <- tibble(
-  file_path = anthem_files
+  file_path = policy_files
 ) |>
   mutate(
     file_name = path_file(file_path),
@@ -51,7 +51,7 @@ file_split_tbl <- tibble(
   group_split(file_name)
 
 # Map over the files and insert into storage ----
-llm_resp_list <- file_split_tbl |>
+llm_resp_list <- file_split_tbl[2:3] |>
   imap(
     .f = function(obj, id) {
       # File path
@@ -189,10 +189,10 @@ markdown_sections <- map_chr(1:nrow(output_tbl), function(i) {
 markdown_doc <- paste(markdown_sections, collapse = "\n---\n")
 
 # Write to file
-write_file(markdown_doc, paste0(getwd(), "/policy_output.md"))
+write_file(markdown_doc, paste0(getwd(), "/test_policy_output.md"))
 
 # Testing ----
-anthem_files_subset <- anthem_files[2]
+policy_files_subset <- policy_files[2]
 
 # Storage ----
 store_location <- "pdf_ragnar_duckdb"
@@ -202,7 +202,7 @@ store <- ragnar_store_create(
   overwrite = TRUE
 )
 
-for (file in anthem_files_subset) {
+for (file in policy_files_subset) {
   chunks <- file |>
     read_as_markdown() |>
     markdown_chunk()
