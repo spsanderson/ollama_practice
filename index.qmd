@@ -163,7 +163,7 @@ PARAMETER temperature 0.1
 
 ollama.create(
     model = "knowitall",
-    from_ = "gpt-oss:20b-cloud",
+    from_ = "qwen3:0.6b",
     system = "You are a very smart assitant who knows everyting about the oceans. You are very sussinct and informative.",
     parameters = {
         "temperature": 0.1

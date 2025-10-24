@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Steven P. Sanderson II, MPH">
-<meta name="dcterms.date" content="2025-10-21">
+<meta name="dcterms.date" content="2025-10-24">
 
 <title>Practice Work With Ollama in Python and R</title>
 <style>
@@ -95,6 +95,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#r-1" id="toc-r-1" class="nav-link" data-scroll-target="#r-1">R</a></li>
   </ul></li>
   <li><a href="#the-generate-endpoint" id="toc-the-generate-endpoint" class="nav-link" data-scroll-target="#the-generate-endpoint">The Generate Endpoint</a></li>
+  <li><a href="#using-a-modelfile" id="toc-using-a-modelfile" class="nav-link" data-scroll-target="#using-a-modelfile">Using a MODELFILE</a></li>
   </ul>
 </nav>
 </div>
@@ -119,7 +120,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">October 21, 2025</p>
+      <p class="date">October 24, 2025</p>
     </div>
   </div>
   
@@ -131,6 +132,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>reticulate<span class="sc">::</span><span class="fu">py_require</span>(<span class="st">"ollama"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
 <p>This is where I am going to learn how to use ollama with Python and R.</p>
@@ -138,13 +142,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="is-ollama-installed-for-python" class="level1">
 <h1>Is ollama installed for python?</h1>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> importlib.util</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>module_name <span class="op">=</span> <span class="st">"ollama"</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> importlib.util.find_spec(module_name):</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>module_name<span class="sc">}</span><span class="ss"> is installed."</span>)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>module_name<span class="sc">}</span><span class="ss"> is not installed."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> importlib.util</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>module_name <span class="op">=</span> <span class="st">"ollama"</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> importlib.util.find_spec(module_name):</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>module_name<span class="sc">}</span><span class="ss"> is installed."</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>module_name<span class="sc">}</span><span class="ss"> is not installed."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>ollama is installed.</code></pre>
 </div>
@@ -157,30 +161,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="python">Python</h2>
 <p>First in python.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ollama</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> ollama.<span class="bu">list</span>()</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> ollama.chat(</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> <span class="st">"deepseek-v3.1:671b-cloud"</span>,</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    messages <span class="op">=</span> [</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>        {</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>            <span class="st">"role"</span>: <span class="st">"user"</span>,</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>            <span class="st">"content"</span>: <span class="st">"Write a haiku about Ollama and Deepseek"</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>        }</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    ]</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(res)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ollama</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> ollama.<span class="bu">list</span>()</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> ollama.chat(</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> <span class="st">"deepseek-v3.1:671b-cloud"</span>,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    messages <span class="op">=</span> [</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>        {</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>            <span class="st">"role"</span>: <span class="st">"user"</span>,</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>            <span class="st">"content"</span>: <span class="st">"Write a haiku about Ollama and Deepseek"</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(res)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>model='deepseek-v3.1:671b-cloud' created_at='2025-10-21T12:38:29.06641231Z' done=True done_reason='stop' total_duration=875952031 load_duration=None prompt_eval_count=14 prompt_eval_duration=None eval_count=21 eval_duration=None message=Message(role='assistant', content="Silent code whispers,\nDeepseek finds the hidden truth,\nOllama's wise guide.", thinking=None, images=None, tool_name=None, tool_calls=None)</code></pre>
+<pre><code>model='deepseek-v3.1:671b-cloud' created_at='2025-10-24T12:43:48.34416985Z' done=True done_reason='stop' total_duration=1089134133 load_duration=None prompt_eval_count=14 prompt_eval_duration=None eval_count=22 eval_duration=None message=Message(role='assistant', content="Silent code takes flight,\nDeepseek's wisdom fills the mind,\nNew paths glow with light.", thinking=None, images=None, tool_name=None, tool_calls=None)</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(res[<span class="st">"message"</span>][<span class="st">"content"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(res[<span class="st">"message"</span>][<span class="st">"content"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Silent code whispers,
-Deepseek finds the hidden truth,
-Ollama's wise guide.</code></pre>
+<pre><code>Silent code takes flight,
+Deepseek's wisdom fills the mind,
+New paths glow with light.</code></pre>
 </div>
 </div>
 </section>
@@ -188,9 +192,9 @@ Ollama's wise guide.</code></pre>
 <h2 class="anchored" data-anchor-id="r">R</h2>
 <p>Now let’s do the same but with R:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ollamar)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">test_connection</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ollamar)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">test_connection</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;httr2_response&gt;
 GET http://localhost:11434/
@@ -198,36 +202,36 @@ Status: 200 OK
 Content-Type: text/plain
 Body: In memory (17 bytes)</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>arg_list <span class="ot">=</span> <span class="fu">list</span>(</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">model =</span> <span class="st">"deepseek-v3.1:671b-cloud"</span>,</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">prompt =</span> <span class="st">"Write a haiku about Ollama and Deepseek."</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>response <span class="ot">=</span> <span class="fu">do.call</span>(generate, arg_list)</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(response)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>arg_list <span class="ot">=</span> <span class="fu">list</span>(</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">model =</span> <span class="st">"deepseek-v3.1:671b-cloud"</span>,</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">prompt =</span> <span class="st">"Write a haiku about Ollama and Deepseek."</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>response <span class="ot">=</span> <span class="fu">do.call</span>(generate, arg_list)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(response)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;httr2_response&gt;
 POST http://127.0.0.1:11434/api/generate
 Status: 200 OK
 Content-Type: text/plain
-Body: In memory (360 bytes)</code></pre>
+Body: In memory (347 bytes)</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">resp_process</span>(response, <span class="st">"text"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">resp_process</span>(response, <span class="st">"text"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "Silent code takes flight,\nDeepseek's wisdom in the stream,\nNew thoughts start to bloom."</code></pre>
+<pre><code>[1] "Code whispers low,\nDeepseek's mind in Ollama's soul,\nSilent answers grow."</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">resp_process</span>(response, <span class="st">"df"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">resp_process</span>(response, <span class="st">"df"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 3
   model                    response                                   created_at
   &lt;chr&gt;                    &lt;chr&gt;                                      &lt;chr&gt;     
-1 deepseek-v3.1:671b-cloud "Silent code takes flight,\nDeepseek's wi… 2025-10-2…</code></pre>
+1 deepseek-v3.1:671b-cloud "Code whispers low,\nDeepseek's mind in O… 2025-10-2…</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Or specify output type</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>txt <span class="ot">&lt;-</span> <span class="fu">do.call</span>(generate, <span class="fu">c</span>(arg_list, <span class="at">output =</span> <span class="st">"text"</span>))</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(txt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Or specify output type</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>txt <span class="ot">&lt;-</span> <span class="fu">do.call</span>(generate, <span class="fu">c</span>(arg_list, <span class="at">output =</span> <span class="st">"text"</span>))</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(txt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "Local models hum,\nDeepseek's knowledge softly blooms,\nWisdom from the cloud."</code></pre>
+<pre><code>[1] "A quiet query,\nDeepseek's thought in Ollama's heart—\nWisdom blooms in code."</code></pre>
 </div>
 </div>
 </section>
@@ -236,149 +240,128 @@ Body: In memory (360 bytes)</code></pre>
 <h1>Streaming</h1>
 <p>First in Pyhon</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> ollama.<span class="bu">list</span>()</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> ollama.chat(</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> <span class="st">"deepseek-v3.1:671b-cloud"</span>,</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    messages <span class="op">=</span> [</span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>        {</span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>            <span class="st">"role"</span>: <span class="st">"user"</span>,</span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>            <span class="st">"content"</span>: <span class="st">"Why is the ocean so salty?"</span></span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>        }</span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>    ],</span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    stream<span class="op">=</span><span class="va">True</span></span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> chunk <span class="kw">in</span> res:</span>
-<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(chunk[<span class="st">"message"</span>][<span class="st">"content"</span>], end<span class="op">=</span><span class="st">""</span>, flush <span class="op">=</span> <span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> ollama.<span class="bu">list</span>()</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> ollama.chat(</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> <span class="st">"deepseek-v3.1:671b-cloud"</span>,</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    messages <span class="op">=</span> [</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>        {</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>            <span class="st">"role"</span>: <span class="st">"user"</span>,</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>            <span class="st">"content"</span>: <span class="st">"Why is the ocean so salty?"</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    stream<span class="op">=</span><span class="va">True</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> chunk <span class="kw">in</span> res:</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(chunk[<span class="st">"message"</span>][<span class="st">"content"</span>], end<span class="op">=</span><span class="st">""</span>, flush <span class="op">=</span> <span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Of course! This is a fantastic question with a deep (pun intended) answer. The ocean's saltiness comes from a simple process that has been ongoing for billions of years.
+<pre><code>Of course! This is a fantastic question with a fascinating answer that involves billions of years of Earth's history.
 
-The short answer is: **The ocean is salty because rain washes minerals, including salt, from the land into the ocean.**
+The short answer is: **The ocean is salty because rivers and streams have been washing dissolved salts from rocks and soil into it for billions of years.**
 
-Here’s the more detailed breakdown of how it works:
+The long answer explains why it *stays* salty and how that process works. Here’s a step-by-step breakdown:
 
-### 1. The Source of the Salt: Weathering of Rocks
+### 1. The Source of the Salt: Weathering Rocks
 
-The primary process is called **chemical weathering**.
-
-*   **Rainwater is slightly acidic:** Even pure rainwater is slightly acidic because it reacts with carbon dioxide in the atmosphere, forming weak carbonic acid (like a very mild soda water).
-*   **Rain falls on land:** As this slightly acidic rain falls onto rocks and mountains, it slowly erodes and dissolves them.
-*   **Minerals are released:** Rocks contain various minerals and salts. One of the most common is **sodium chloride (NaCl)**—the same as our table salt—but rocks also release other ions like potassium, calcium, sulfate, and bicarbonate.
-*   **Rivers carry the salts:** These dissolved minerals are carried by rivers and streams, which eventually flow into the oceans.
+The primary process is called **rock weathering**.
+*   Rainwater is slightly acidic. As it falls through the atmosphere, it absorbs carbon dioxide, forming a weak carbonic acid.
+*   This acidic rain falls on rocks on land, slowly eroding them.
+*   This erosion breaks down the rocks and releases minerals and salts, including ions like **sodium (Na⁺)** and **chloride (Cl⁻)**—the two components of table salt—as well as others like potassium, calcium, and sulfate.
+*   These dissolved ions are carried by rivers and streams all the way to the ocean.
 
 This process has been happening continuously for over 4 billion years, since the Earth's first oceans formed.
 
-### 2. Why the Salt Stays and Concentrates: The Hydrological Cycle
+### 2. Why the Ocean Gets Salty, But Rivers Don't
 
-This is the crucial part. The system is a one-way street for the salts.
+This is the key part of the puzzle. Rivers carry very tiny amounts of these dissolved salts—so little that we taste them as "fresh" water. So why does the ocean become salty?
 
-*   **Water Evaporates, Salt Stays Behind:** When the sun heats the ocean, water evaporates into the atmosphere. However, the dissolved salts are left behind because they are too heavy to evaporate.
-*   **Fresh Water Falls as Rain:** The evaporated water is pure fresh water. It condenses in the atmosphere and falls back as rain, mostly over land.
-*   **The Cycle Repeats:** That rain once again weathers the rocks, picks up more salts, and carries them back to the ocean.
+*   **The Role of Evaporation:** When ocean water evaporates, it's only the pure **water (H₂O)** that turns into vapor and rises to form clouds. The dissolved salts are left behind in the ocean.
+*   **A One-Way Trip:** The water cycle constantly replenishes the ocean with fresh water from rain and rivers, which again brings more salts. But the salts themselves have no easy way to leave. This is a one-way transport system: salts go in, but they don't come out.
 
-This cycle acts like a giant conveyor belt. For billions of years, rivers have been delivering salts to the ocean, but the salts have nowhere to go. This has led to a gradual increase in the salt concentration over geological time.
+Over millions of years, this continuous input of salts with no equivalent output has led to a gradual buildup, making the ocean salty.
 
-### Where Does the Salt *Specifically* Come From?
+### 3. Where *Do* the Salts Go? (A Little Bit Does Leave)
 
-The salt in the ocean is about 85% **sodium chloride** (table salt). The sources are:
+While the system is overwhelmingly weighted toward salt accumulation, tiny amounts of salt are removed, which prevents the ocean from becoming infinitely saltier. Salts are removed through processes like:
+*   **Sea Spray:** Wind blows tiny droplets of seawater inland, depositing a minuscule amount of salt on land.
+*   **Absorption:** Elements are absorbed by marine organisms. For example, clams and corals use calcium to build their shells and skeletons.
+*   **Hydrothermal Vents:** At mid-ocean ridges, seawater seeps into the ocean floor, gets heated by magma, and leaches minerals out of the rock before spewing back out. This process removes some elements.
+*   **Sedimentation:** Some salts settle onto the seafloor and become buried in sediment layers.
 
-*   **Sodium (Na⁺):** Primarily leached from rocks on land. It can also come from the slow weathering of the ocean floor itself by seawater.
-*   **Chloride (Cl⁻):** Mostly comes from volcanic activity. When volcanoes erupt, they release gases, including chlorine, which then dissolved in the early oceans. This is why the ocean's chloride content is so high.
-
-### If Rivers Keep Adding Salt, Why Isn't the Ocean Getting Saltier?
-
-This is an excellent follow-up question. Scientists believe the ocean reached a **steady state** long ago. The salt concentration has been roughly stable for hundreds of millions of years (at about 3.5%, or 35 grams of salt per liter of water). This is because salts are also being *removed* at about the same rate they are added.
-
-Salts are removed through processes like:
-*   **Sea Spray:** Salt particles get caught in the air and are blown onto land.
-*   **Absorption by Ocean Crust:** Seawater reacts with hot volcanic rock at mid-ocean ridges, and salts are incorporated into the new crust.
-*   **Evaporite Deposits:** In shallow seas and lagoons that get cut off and evaporate, the salt precipitates out and forms solid mineral deposits (like the famous salt flats).
+These removal processes roughly balance the input *now*, which is why the ocean's salinity has been relatively stable for a very long time.
 
 ---
 
+### A Quick Note on the "Salty" Taste
+
+While the ocean contains many dissolved minerals, the reason it *tastes* like table salt is that about **90%** of all the dissolved ions in seawater are **sodium (Na⁺)** and **chloride (Cl⁻)**, the very same ingredients.
+
 ### In a Nutshell:
 
-| Process | What Happens |
-| :--- | :--- |
-| **1. Source** | Rain (slightly acidic) falls on rocks and dissolves minerals, including salt. |
-| **2. Transport** | Rivers carry these dissolved salts to the ocean. |
-| **3. Concentration** | The sun evaporates water from the ocean, leaving the salts behind. This cycle repeats for billions of years. |
-| **4. Steady State** | Salt is removed at roughly the same rate it's added (via sea spray, geological processes), keeping the concentration stable. |
-
-So, the ocean is essentially a giant collection basin for all the dissolved minerals of the entire planet, concentrated over billions of years by the relentless power of the water cycle.</code></pre>
+The ocean is salty because it acts as the **final destination for minerals washed off the land**. The water evaporates and cycles back to the land as rain, but the salts are left behind, accumulating over geologic time. It's a natural concentrating effect that has been running for billions of years.</code></pre>
 </div>
 </div>
 <section id="r-1" class="level2">
 <h2 class="anchored" data-anchor-id="r-1">R</h2>
 <p>Now in R:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>messages <span class="ot">&lt;-</span> <span class="fu">create_message</span>(<span class="st">"Why is the ocean so salty?"</span>)</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>arg_list <span class="ot">=</span> <span class="fu">list</span>(</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">model =</span> <span class="st">"deepseek-v3.1:671b-cloud"</span>,</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">messages =</span> messages,</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">stream =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">output =</span> <span class="st">"text"</span></span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>txt <span class="ot">&lt;-</span> <span class="fu">do.call</span>(chat, arg_list)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>messages <span class="ot">&lt;-</span> <span class="fu">create_message</span>(<span class="st">"Why is the ocean so salty?"</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>arg_list <span class="ot">=</span> <span class="fu">list</span>(</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">model =</span> <span class="st">"deepseek-v3.1:671b-cloud"</span>,</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">messages =</span> messages,</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">stream =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">output =</span> <span class="st">"text"</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>txt <span class="ot">&lt;-</span> <span class="fu">do.call</span>(chat, arg_list)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Of course! This is a fantastic question with a fascinating answer that involves geology, chemistry, and hundreds of millions of years.
 
-The short answer is: **The ocean is salty because dissolved salts have been washing off the land and accumulating in the ocean for billions of years.**
+The short answer is: **The ocean is salty because of a slow, continuous process where rainwater dissolves minerals from rocks on land, and rivers carry those minerals (salts) to the ocean.**
 
 Here’s a more detailed breakdown of how it works:
 
 ### 1. The Source of the Salt: Weathering of Rocks
 
-The primary process is called **weathering**. Rainwater is not pure H₂O; it's slightly acidic because it reacts with carbon dioxide in the atmosphere to form weak carbonic acid (H₂CO₃).
+It all starts on land with a process called **chemical weathering**.
 
-When this slightly acidic rain falls on land, it erodes rocks and soil. This process breaks down the rocks and **releases ions** (charged particles) like:
-*   **Sodium (Na⁺)**
-*   **Chloride (Cl⁻)** (which together make sodium chloride, or table salt)
-*   **Calcium (Ca²⁺)**
-*   **Potassium (K⁺)**
-*   **Sulfate (SO₄²⁻)**
+*   **Rainwater is slightly acidic:** Even pure rainwater is not entirely neutral. It absorbs carbon dioxide (CO₂) from the air, forming a weak acid called carbonic acid (H₂CO₃).
+*   **Acid attacks rocks:** When this slightly acidic rain falls on rocks, it slowly erodes and dissolves them. Rocks contain various soluble minerals and ions, most notably **Sodium (Na⁺)** and **Chloride (Cl⁻)**, which are the two ions that make up ordinary table salt (NaCl). Other ions like calcium, potassium, and sulfate are also dissolved.
+*   **Rivers are the transporters:** These dissolved ions are carried by streams and rivers all the way to the ocean. This process has been happening for billions of years.
 
-These ions are carried by rivers and streams all the way to the ocean.
+### 2. The Ocean as a "Collecting Bowl"
 
-### 2. The Concentration Mechanism: The Hydrological Cycle
+Once the salts enter the ocean, they stay there.
 
-This is the key to why the ocean is salty and rivers are not. The global water cycle acts like a giant concentrating machine.
+*   **Water evaporates, salt stays behind:** The sun heats the ocean, causing water to evaporate. However, when water evaporates, it leaves the dissolved salts behind. The pure water vapor forms clouds, which eventually lead to rain that falls back on land, and the cycle continues.
+*   **This is a one-way trip for salt:** The salts have no easy way to leave the ocean in large quantities. This makes the ocean a giant, long-term collecting bowl for salts. Over hundreds of millions of years, this slow, steady input of salt has built up to the concentration we see today.
 
-*   **Water Evaporates:** The sun heats the ocean, causing water to evaporate into the atmosphere. However, **only pure water evaporates.** The salt ions are left behind in the ocean.
-*   **Water Falls as Rain:** The evaporated water forms clouds and falls back onto the land as rain.
-*   **Water Returns to the Ocean:** The rain weathers the rocks again, picks up more ions, and rivers carry this slightly salty water back to the ocean.
+### Why Doesn't the Ocean Keep Getting Saltier?
 
-This cycle repeats over and over. Every time, a little more salt is added to the ocean, but the water leaves. After hundreds of millions of years, this process has concentrated these ions to the salty levels we see today.
+You might wonder, if rivers keep bringing salt, why isn't the ocean unbearably salty? The saltiness (salinity) of the ocean has been roughly stable for a very long time because **input and output are in balance**.
 
-### Why Aren't Rivers Salty?
+While salt is constantly being added, it's also being removed in several ways:
 
-Rivers do carry salt, but in very low concentrations. Because river water is constantly flowing *to* the ocean, the salts don't have time to build up. The ocean, on the other hand, is the final destination where the salts accumulate.
+1.  **Sea Spray:** Ocean waves crashing onto the shore release salty spray into the air, which can be carried inland.
+2.  **Biological Processes:** Marine organisms use the dissolved ions. For example, clams and corals use calcium to build their shells and skeletons. When they die, these shells can sink to the bottom and eventually form limestone, trapping the minerals for a very long time.
+3.  **Hydrothermal Vents:** At mid-ocean ridges, seawater seeps into the hot oceanic crust, gets heated, and dissolves minerals from the rock. When it vents back into the ocean, some minerals precipitate out and are deposited on the seafloor.
+4.  **Evaporite Deposits:** In shallow, enclosed seas (like the Dead Sea or the ancient Mediterranean Sea), high evaporation rates can cause the water to become so salty that the minerals actually crystallize and settle on the bottom as layers of salt, gypsum, and other minerals.
 
-### Is the Ocean Getting Saltier?
+### A Few Interesting Extra Facts
 
-Yes, but incredibly slowly. The salt concentration (salinity) of the ocean is in a very stable long-term balance. While rivers continue to add salts, processes *remove* salts at roughly the same rate. These removal processes include:
+*   **The Salinity is Remarkably Consistent:** The average salinity of the ocean is about **35 parts per thousand** (ppt), meaning about 3.5% of the weight of seawater comes from dissolved salts. This ratio is surprisingly constant across most of the world's oceans, though it can be lower near rivers or poles (from melting ice) and higher in areas with high evaporation, like the Red Sea.
+*   **It's Not Just Table Salt:** While sodium and chloride make up about 85% of the dissolved ions, seawater is a complex "soup" of almost every natural element.
+*   **The Salt on Your Table:** Most of the table salt we use today comes from ancient evaporite deposits—places where ancient oceans dried up long ago, leaving massive salt beds behind.
 
-*   **Sea Spray:** Salt is ejected into the air by waves and can be deposited on land.
-*   **Absorption by Marine Life:** Ocean organisms use minerals and ions to build shells and skeletons.
-*   **Hydrothermal Vents:** Seawater seeps into cracks in the ocean floor, gets heated by magma, and leaches salts out of the rock before spewing back into the ocean. This process both adds and removes various ions.
-*   **Sedimentation:** Some salts settle onto the seafloor and become buried in sediment.
+### In a Nutshell:
 
-So, the ocean's salinity has been relatively stable for a very long time.
-
-### A Fun Fact: The Saltiest Sea
-
-The saltiest body of water on Earth is actually **the Dead Sea** (which is a lake, not a sea). It's so salty (about 10 times saltier than the ocean) because it has no outlet. Water flows in from the Jordan River but can only escape through evaporation, leaving all the salt behind.
-
----
-
-**In summary:** The ocean is a giant repository for minerals that have been slowly leached from the continents over billions of years. The water cycle evaporates fresh water and leaves the salts behind, making the ocean salty.</code></pre>
+Think of it as a very slow, planet-sized recipe. **Land rocks are the source, rivers are the delivery system, and the ocean is the giant pot where the "salt soup" has been simmering for billions of years.** The water evaporates and is replenished by rain, but the salt concentrates over time, leading to the salty oceans we have today.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(txt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(txt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "Of course! This is a fantastic question with a fascinating answer that involves geology, chemistry, and hundreds of millions of years.\n\nThe short answer is: **The ocean is salty because dissolved salts have been washing off the land and accumulating in the ocean for billions of years.**\n\nHere’s a more detailed breakdown of how it works:\n\n### 1. The Source of the Salt: Weathering of Rocks\n\nThe primary process is called **weathering**. Rainwater is not pure H₂O; it's slightly acidic because it reacts with carbon dioxide in the atmosphere to form weak carbonic acid (H₂CO₃).\n\nWhen this slightly acidic rain falls on land, it erodes rocks and soil. This process breaks down the rocks and **releases ions** (charged particles) like:\n*   **Sodium (Na⁺)**\n*   **Chloride (Cl⁻)** (which together make sodium chloride, or table salt)\n*   **Calcium (Ca²⁺)**\n*   **Potassium (K⁺)**\n*   **Sulfate (SO₄²⁻)**\n\nThese ions are carried by rivers and streams all the way to the ocean.\n\n### 2. The Concentration Mechanism: The Hydrological Cycle\n\nThis is the key to why the ocean is salty and rivers are not. The global water cycle acts like a giant concentrating machine.\n\n*   **Water Evaporates:** The sun heats the ocean, causing water to evaporate into the atmosphere. However, **only pure water evaporates.** The salt ions are left behind in the ocean.\n*   **Water Falls as Rain:** The evaporated water forms clouds and falls back onto the land as rain.\n*   **Water Returns to the Ocean:** The rain weathers the rocks again, picks up more ions, and rivers carry this slightly salty water back to the ocean.\n\nThis cycle repeats over and over. Every time, a little more salt is added to the ocean, but the water leaves. After hundreds of millions of years, this process has concentrated these ions to the salty levels we see today.\n\n### Why Aren't Rivers Salty?\n\nRivers do carry salt, but in very low concentrations. Because river water is constantly flowing *to* the ocean, the salts don't have time to build up. The ocean, on the other hand, is the final destination where the salts accumulate.\n\n### Is the Ocean Getting Saltier?\n\nYes, but incredibly slowly. The salt concentration (salinity) of the ocean is in a very stable long-term balance. While rivers continue to add salts, processes *remove* salts at roughly the same rate. These removal processes include:\n\n*   **Sea Spray:** Salt is ejected into the air by waves and can be deposited on land.\n*   **Absorption by Marine Life:** Ocean organisms use minerals and ions to build shells and skeletons.\n*   **Hydrothermal Vents:** Seawater seeps into cracks in the ocean floor, gets heated by magma, and leaches salts out of the rock before spewing back into the ocean. This process both adds and removes various ions.\n*   **Sedimentation:** Some salts settle onto the seafloor and become buried in sediment.\n\nSo, the ocean's salinity has been relatively stable for a very long time.\n\n### A Fun Fact: The Saltiest Sea\n\nThe saltiest body of water on Earth is actually **the Dead Sea** (which is a lake, not a sea). It's so salty (about 10 times saltier than the ocean) because it has no outlet. Water flows in from the Jordan River but can only escape through evaporation, leaving all the salt behind.\n\n---\n\n**In summary:** The ocean is a giant repository for minerals that have been slowly leached from the continents over billions of years. The water cycle evaporates fresh water and leaves the salts behind, making the ocean salty."</code></pre>
+<pre><code>[1] "Of course! This is a fantastic question with a fascinating answer that involves geology, chemistry, and hundreds of millions of years.\n\nThe short answer is: **The ocean is salty because of a slow, continuous process where rainwater dissolves minerals from rocks on land, and rivers carry those minerals (salts) to the ocean.**\n\nHere’s a more detailed breakdown of how it works:\n\n### 1. The Source of the Salt: Weathering of Rocks\n\nIt all starts on land with a process called **chemical weathering**.\n\n*   **Rainwater is slightly acidic:** Even pure rainwater is not entirely neutral. It absorbs carbon dioxide (CO₂) from the air, forming a weak acid called carbonic acid (H₂CO₃).\n*   **Acid attacks rocks:** When this slightly acidic rain falls on rocks, it slowly erodes and dissolves them. Rocks contain various soluble minerals and ions, most notably **Sodium (Na⁺)** and **Chloride (Cl⁻)**, which are the two ions that make up ordinary table salt (NaCl). Other ions like calcium, potassium, and sulfate are also dissolved.\n*   **Rivers are the transporters:** These dissolved ions are carried by streams and rivers all the way to the ocean. This process has been happening for billions of years.\n\n### 2. The Ocean as a \"Collecting Bowl\"\n\nOnce the salts enter the ocean, they stay there.\n\n*   **Water evaporates, salt stays behind:** The sun heats the ocean, causing water to evaporate. However, when water evaporates, it leaves the dissolved salts behind. The pure water vapor forms clouds, which eventually lead to rain that falls back on land, and the cycle continues.\n*   **This is a one-way trip for salt:** The salts have no easy way to leave the ocean in large quantities. This makes the ocean a giant, long-term collecting bowl for salts. Over hundreds of millions of years, this slow, steady input of salt has built up to the concentration we see today.\n\n### Why Doesn't the Ocean Keep Getting Saltier?\n\nYou might wonder, if rivers keep bringing salt, why isn't the ocean unbearably salty? The saltiness (salinity) of the ocean has been roughly stable for a very long time because **input and output are in balance**.\n\nWhile salt is constantly being added, it's also being removed in several ways:\n\n1.  **Sea Spray:** Ocean waves crashing onto the shore release salty spray into the air, which can be carried inland.\n2.  **Biological Processes:** Marine organisms use the dissolved ions. For example, clams and corals use calcium to build their shells and skeletons. When they die, these shells can sink to the bottom and eventually form limestone, trapping the minerals for a very long time.\n3.  **Hydrothermal Vents:** At mid-ocean ridges, seawater seeps into the hot oceanic crust, gets heated, and dissolves minerals from the rock. When it vents back into the ocean, some minerals precipitate out and are deposited on the seafloor.\n4.  **Evaporite Deposits:** In shallow, enclosed seas (like the Dead Sea or the ancient Mediterranean Sea), high evaporation rates can cause the water to become so salty that the minerals actually crystallize and settle on the bottom as layers of salt, gypsum, and other minerals.\n\n### A Few Interesting Extra Facts\n\n*   **The Salinity is Remarkably Consistent:** The average salinity of the ocean is about **35 parts per thousand** (ppt), meaning about 3.5% of the weight of seawater comes from dissolved salts. This ratio is surprisingly constant across most of the world's oceans, though it can be lower near rivers or poles (from melting ice) and higher in areas with high evaporation, like the Red Sea.\n*   **It's Not Just Table Salt:** While sodium and chloride make up about 85% of the dissolved ions, seawater is a complex \"soup\" of almost every natural element.\n*   **The Salt on Your Table:** Most of the table salt we use today comes from ancient evaporite deposits—places where ancient oceans dried up long ago, leaving massive salt beds behind.\n\n### In a Nutshell:\n\nThink of it as a very slow, planet-sized recipe. **Land rocks are the source, rivers are the delivery system, and the ocean is the giant pot where the \"salt soup\" has been simmering for billions of years.** The water evaporates and is replenished by rain, but the salt concentrates over time, leading to the salty oceans we have today."</code></pre>
 </div>
 </div>
 </section>
@@ -387,15 +370,136 @@ The saltiest body of water on Earth is actually **the Dead Sea** (which is a lak
 <h1>The Generate Endpoint</h1>
 <p>Now let’s see how using generate changes things.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> ollama.generate(</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> <span class="st">"deepseek-v3.1:671b-cloud"</span>,</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    prompt <span class="op">=</span> <span class="st">"Why is the sky blue?"</span></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="co"># show</span></span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(ollama.show(<span class="st">"deepseek-v3.1:671b-cloud"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> ollama.generate(</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> <span class="st">"deepseek-v3.1:671b-cloud"</span>,</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    prompt <span class="op">=</span> <span class="st">"Why is the sky blue?"</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="co"># show</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(ollama.show(<span class="st">"deepseek-v3.1:671b-cloud"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>modified_at=datetime.datetime(2025, 10, 14, 14, 38, 21, 791074, tzinfo=TzInfo(-14400)) template='{{ .Prompt }}' modelfile='# Modelfile generated by "ollama show"\n# To build a new Modelfile based on this, replace FROM with:\n# FROM deepseek-v3.1:671b-cloud\n\nFROM \nTEMPLATE {{ .Prompt }}\n' license=None details=ModelDetails(parent_model='', format='', family='deepseek2', families=['deepseek2'], parameter_size='671.0B', quantization_level='FP8_E4M3') modelinfo={'deepseek2.context_length': 163840, 'deepseek2.embedding_length': 7168, 'general.architecture': 'deepseek2', 'general.basename': 'deepseek-v3.1:671b'} parameters=None capabilities=['completion', 'tools', 'thinking']</code></pre>
+</div>
+</div>
+<p>Now in R</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>messages <span class="ot">&lt;-</span> <span class="fu">create_message</span>(<span class="st">"Why is the ocean so salty? Be concise."</span>)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>arg_list <span class="ot">=</span> <span class="fu">list</span>(</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">model =</span> <span class="st">"deepseek-v3.1:671b-cloud"</span>,</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">messages =</span> messages,</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">stream =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">output =</span> <span class="st">"text"</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>txt <span class="ot">&lt;-</span> <span class="fu">do.call</span>(chat, arg_list)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>The ocean is salty because of two main processes:
+
+1.  **Runoff from Land:** Rainwater, which is slightly acidic, erodes rocks on land, dissolving salts and minerals. These ions (like sodium and chloride) are carried by rivers into the ocean.
+2.  **Hydrothermal Vents:** On the seafloor, seawater seeps into cracks, gets heated by magma, and dissolves minerals from the Earth's crust before spewing back into the ocean.
+
+Salt concentrates in the ocean because while water evaporates and falls as rain (replenishing the ocean), the dissolved salts remain behind. This has been happening for billions of years.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># show</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">show</span>(<span class="st">"deepseek-v3.1:671b-cloud"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$modelfile
+[1] "# Modelfile generated by \"ollama show\"\n# To build a new Modelfile based on this, replace FROM with:\n# FROM deepseek-v3.1:671b-cloud\n\nFROM \nTEMPLATE {{ .Prompt }}\n"
+
+$template
+[1] "{{ .Prompt }}"
+
+$details
+$details$parent_model
+[1] ""
+
+$details$format
+[1] ""
+
+$details$family
+[1] "deepseek2"
+
+$details$families
+$details$families[[1]]
+[1] "deepseek2"
+
+
+$details$parameter_size
+[1] "671.0B"
+
+$details$quantization_level
+[1] "FP8_E4M3"
+
+
+$remote_model
+[1] "deepseek-v3.1:671b"
+
+$remote_host
+[1] "https://ollama.com:443"
+
+$model_info
+$model_info$deepseek2.context_length
+[1] 163840
+
+$model_info$deepseek2.embedding_length
+[1] 7168
+
+$model_info$general.architecture
+[1] "deepseek2"
+
+$model_info$general.basename
+[1] "deepseek-v3.1:671b"
+
+
+$capabilities
+$capabilities[[1]]
+[1] "completion"
+
+$capabilities[[2]]
+[1] "tools"
+
+$capabilities[[3]]
+[1] "thinking"
+
+
+$modified_at
+[1] "2025-10-14T14:38:21.791074-04:00"</code></pre>
+</div>
+</div>
+</section>
+<section id="using-a-modelfile" class="level1">
+<h1>Using a MODELFILE</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The following use of modelfile in the python library ollama.create does not work.</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>modelfile <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="st">FROM gpt-oss:20b-cloud</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="st">SYSTEM You are a very smart assistant who knows everything about the oceans. You are very sussinct and informative.</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="st">PARAMETER temperature 0.1</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>ollama.create(</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> <span class="st">"knowitall"</span>,</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>    from_ <span class="op">=</span> <span class="st">"qwen3:0.6b"</span>,</span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>    system <span class="op">=</span> <span class="st">"You are a very smart assitant who knows everyting about the oceans. You are very sussinct and informative."</span>,</span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>    parameters <span class="op">=</span> {</span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">"temperature"</span>: <span class="fl">0.1</span></span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>ProgressResponse(status='success', completed=None, total=None, digest=None)</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> ollama.generate(</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> <span class="st">"knowitall"</span>,</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    prompt <span class="op">=</span> <span class="st">"Why is the ocean so salty?"</span>,</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">format</span> <span class="op">=</span> <span class="st">"json"</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(res[<span class="st">"response"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>{
+
+
+}</code></pre>
 </div>
 </div>
 </section>
