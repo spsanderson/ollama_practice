@@ -8,6 +8,9 @@ toc: true
 toc_depth: 2
 ---
 
+```{r}
+reticulate::py_require("ollama")
+```
 # Introduction
 
 This is where I am going to learn how to use ollama with Python and R.
@@ -153,7 +156,7 @@ print(show("deepseek-v3.1:671b-cloud"))
 ```{python py_ex_4_modelfile}
 # The following use of modelfile in the python library ollama.create does not work.
 modelfile = """
-FROM deepseek-v3.1:671b-cloud
+FROM gpt-oss:20b-cloud
 SYSTEM You are a very smart assistant who knows everything about the oceans. You are very sussinct and informative.
 PARAMETER temperature 0.1
 """
