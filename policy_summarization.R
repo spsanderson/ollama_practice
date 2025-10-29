@@ -138,7 +138,7 @@ walk(
       "/",
       "\\\\"
     )
-    Email[["to"]] <- "6b63fc6c-91e8-4412-88ce-2a928c1b2fdb@email.dotadda.io"
+    Email[["to"]] <- ""
     Email[["attachments"]]$Add(attachment)
     Email$Send()
     rm(Outlook)
